@@ -11,6 +11,7 @@ from sqlalchemy import (
     Integer,
     String,
     Table,
+    Text,
     UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -78,3 +79,31 @@ class Session(Base):
         token = token_urlsafe(32)
         expiration = datetime.utcnow() + timedelta(minutes=settings.access_token_ttl_minutes)
         return cls(token=token, user_id=user_id, user_type=user_type, expires_at=expiration)
+
+
+class Question(Base):
+    __tablename__ = "questions"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    titulo: Mapped[str] = mapped_column(String(512), nullable=False)
+    index: Mapped[int] = mapped_column(Integer, nullable=False)
+    ano: Mapped[int] = mapped_column(Integer, nullable=False)
+    linguagem: Mapped[str | None] = mapped_column(String(64))
+    disciplina: Mapped[str | None] = mapped_column(String(128))
+    contexto: Mapped[str | None] = mapped_column(Text)
+    aquivo1: Mapped[str | None] = mapped_column(String(512))
+    arquivo2: Mapped[str | None] = mapped_column(String(512))
+    arquivo3: Mapped[str | None] = mapped_column(String(512))
+    arquivo4: Mapped[str | None] = mapped_column(String(512))
+    arquivo5: Mapped[str | None] = mapped_column(String(512))
+    arquivo6: Mapped[str | None] = mapped_column(String(512))
+    arquivo7: Mapped[str | None] = mapped_column(String(512))
+    arquivo8: Mapped[str | None] = mapped_column(String(512))
+    arquivo9: Mapped[str | None] = mapped_column(String(512))
+    arquivo10: Mapped[str | None] = mapped_column(String(512))
+    alternativa_correta: Mapped[str | None] = mapped_column(String(1))
+    inducaoaalternativa: Mapped[str | None] = mapped_column(Text)
+    alternativaA: Mapped[str | None] = mapped_column(Text)
+    alternativaB: Mapped[str | None] = mapped_column(Text)
+    alternativaC: Mapped[str | None] = mapped_column(Text)
+    altenartivaD: Mapped[str | None] = mapped_column(Text)
+    alternativaE: Mapped[str | None] = mapped_column(Text)
