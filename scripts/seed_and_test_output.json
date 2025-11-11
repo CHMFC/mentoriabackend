@@ -1,0 +1,48 @@
+{
+  "teacher": {
+    "name": "Prof. Ada Lovelace",
+    "institution": "Instituto Mentoria",
+    "email": "ada.lovelace@example.com",
+    "id": 1,
+    "tag": "7662"
+  },
+  "teacher_session": {
+    "token": "EE2sR6HZuC3EWFDNDcm7RUlBWZ5-xHpvwuwO_sBThUw",
+    "user_id": 1,
+    "user_type": "teacher",
+    "expires_at": "2025-11-12T17:26:04.878165"
+  },
+  "teacher_tag": "7662",
+  "student": {
+    "name": "Aluno Alan Turing",
+    "email": "alan.turing@example.com",
+    "id": 1
+  },
+  "student_self": {
+    "name": "Aluno Grace Hopper",
+    "email": "grace.hopper@example.com",
+    "id": 2
+  },
+  "student_session": {
+    "token": "Wok78LHpQaGsDEqZfKcR4jCUhS2mrwdQCsXoe-bFXmA",
+    "user_id": 2,
+    "user_type": "student",
+    "expires_at": "2025-11-12T17:26:11.751535"
+  },
+  "student_profile": {
+    "name": "Aluno Grace Hopper",
+    "email": "grace.hopper@example.com",
+    "id": 2
+  },
+  "second_teacher_tag": "2880",
+  "attach_tag_message": {
+    "message": "Tag de professor adicionada com sucesso"
+  },
+  "session_info": {
+    "token": "EE2sR6HZuC3EWFDNDcm7RUlBWZ5-xHpvwuwO_sBThUw",
+    "user_id": 1,
+    "user_type": "teacher",
+    "created_at": "2025-11-11T17:26:04.879139",
+    "expires_at": "2025-11-12T17:26:04.878165"
+  }
+}
