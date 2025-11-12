@@ -83,3 +83,63 @@ class MessageResponse(BaseModel):
 class CurrentUser(BaseModel):
     id: int
     user_type: UserType
+
+
+class QuestionFile(BaseModel):
+    column: str
+    url: str
+
+
+class QuestionAlternative(BaseModel):
+    letter: str
+    text: str | None
+    text_raw: str | None
+
+
+class QuestionDetail(BaseModel):
+    id: int
+    titulo: str
+    ano: int
+    index: int
+    disciplina: str | None
+    linguagem: str | None
+    contexto: str | None
+    contexto_raw: str | None
+    inducao: str | None
+    inducao_raw: str | None
+    alternativas: list[QuestionAlternative]
+    files: dict[str, str]
+
+
+class QuestionAnswerRequest(BaseModel):
+    alternativa: str = Field(..., pattern="^[A-Ea-e]$")
+
+    def normalized(self) -> str:
+        return self.alternativa.upper()
+
+
+class QuestionAnswerResult(BaseModel):
+    resposta_id: int
+    correta: bool
+    alternativa_correta: str | None
+
+
+class StudentSummary(BaseModel):
+    id: int
+    name: str
+    email: EmailStr
+    total_respostas: int
+    total_corretas: int
+    total_erradas: int
+
+
+class StudentAnswerDetail(BaseModel):
+    id: int
+    question_id: int
+    question_index: int
+    question_year: int
+    question_title: str
+    alternativa_escolhida: str
+    alternativa_correta: str | None
+    correta: bool
+    responded_at: datetime

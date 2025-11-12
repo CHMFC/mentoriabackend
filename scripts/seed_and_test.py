@@ -2,9 +2,14 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 
 from fastapi.testclient import TestClient
 from sqlalchemy import text
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
 from app.database import Base, SessionLocal, engine
 from app.main import app
@@ -86,6 +91,19 @@ def run_flow() -> dict[str, object]:
     profile_resp = client.get("/students/me", headers=student_headers)
     profile_resp.raise_for_status()
 
+    random_question_resp = client.get("/questions/random", headers=student_headers)
+    random_question_resp.raise_for_status()
+    random_question = random_question_resp.json()
+
+    answer_payload = {"alternativa": "A"}
+    answer_resp = client.post(
+        f"/questions/{random_question['id']}/answer",
+        headers=student_headers,
+        json=answer_payload,
+    )
+    answer_resp.raise_for_status()
+    answer_result = answer_resp.json()
+
     second_teacher_payload = {
         "name": "Prof. Katherine Johnson",
         "institution": "Mentoria Avançada",
@@ -106,6 +124,15 @@ def run_flow() -> dict[str, object]:
     session_info_resp = client.get("/auth/session", headers={"Authorization": f"Bearer {teacher_session['token']}"})
     session_info_resp.raise_for_status()
 
+    students_overview_resp = client.get("/teachers/me/students", headers=auth_header)
+    students_overview_resp.raise_for_status()
+
+    student_answers_resp = client.get(
+        f"/teachers/students/{student_self_data['id']}/answers",
+        headers=auth_header,
+    )
+    student_answers_resp.raise_for_status()
+
     return {
         "teacher": teacher_data,
         "teacher_session": teacher_session,
@@ -114,9 +141,13 @@ def run_flow() -> dict[str, object]:
         "student_self": student_self_data,
         "student_session": student_session,
         "student_profile": profile_resp.json(),
+        "random_question": random_question,
+        "answer_result": answer_result,
         "second_teacher_tag": second_teacher_tag,
         "attach_tag_message": attach_tag_resp.json(),
         "session_info": session_info_resp.json(),
+        "teacher_students_overview": students_overview_resp.json(),
+        "student_answers_detail": student_answers_resp.json(),
     }
 
 

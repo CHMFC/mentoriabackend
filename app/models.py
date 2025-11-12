@@ -62,6 +62,9 @@ class Student(Base):
     teachers: Mapped[list[Teacher]] = relationship(
         "Teacher", secondary=student_teacher_association, back_populates="students"
     )
+    respostas: Mapped[list["Respondida"]] = relationship(
+        "Respondida", back_populates="student", cascade="all, delete-orphan"
+    )
 
 
 class Session(Base):
@@ -107,3 +110,24 @@ class Question(Base):
     alternativaC: Mapped[str | None] = mapped_column(Text)
     altenartivaD: Mapped[str | None] = mapped_column(Text)
     alternativaE: Mapped[str | None] = mapped_column(Text)
+    respostas: Mapped[list["Respondida"]] = relationship(
+        "Respondida", back_populates="question", cascade="all, delete-orphan"
+    )
+
+
+class Respondida(Base):
+    __tablename__ = "respondidas"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    student_id: Mapped[int] = mapped_column(
+        ForeignKey("students.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    question_id: Mapped[int] = mapped_column(
+        ForeignKey("questions.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    alternativa_escolhida: Mapped[str] = mapped_column(String(1), nullable=False)
+    correta: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
+
+    student: Mapped["Student"] = relationship("Student", back_populates="respostas")
+    question: Mapped["Question"] = relationship("Question", back_populates="respostas")

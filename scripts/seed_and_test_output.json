@@ -4,15 +4,15 @@
     "institution": "Instituto Mentoria",
     "email": "ada.lovelace@example.com",
     "id": 1,
-    "tag": "7662"
+    "tag": "8911"
   },
   "teacher_session": {
-    "token": "EE2sR6HZuC3EWFDNDcm7RUlBWZ5-xHpvwuwO_sBThUw",
+    "token": "VC-4PYg4WXkN5kDwo2OdRsIrK-srnlVU9UH9epzI1nQ",
     "user_id": 1,
     "user_type": "teacher",
-    "expires_at": "2025-11-12T17:26:04.878165"
+    "expires_at": "2025-11-12T23:39:46.743062"
   },
-  "teacher_tag": "7662",
+  "teacher_tag": "8911",
   "student": {
     "name": "Aluno Alan Turing",
     "email": "alan.turing@example.com",
@@ -24,25 +24,103 @@
     "id": 2
   },
   "student_session": {
-    "token": "Wok78LHpQaGsDEqZfKcR4jCUhS2mrwdQCsXoe-bFXmA",
+    "token": "LaTwR6yjMwK5MHzvAdHKvNmX8AqVYkl3r5I1OSh6xD8",
     "user_id": 2,
     "user_type": "student",
-    "expires_at": "2025-11-12T17:26:11.751535"
+    "expires_at": "2025-11-12T23:39:49.650765"
   },
   "student_profile": {
     "name": "Aluno Grace Hopper",
     "email": "grace.hopper@example.com",
     "id": 2
   },
-  "second_teacher_tag": "2880",
+  "random_question": {
+    "id": 1555,
+    "titulo": "Questão 172 - ENEM 2017",
+    "ano": 2017,
+    "index": 172,
+    "disciplina": "matematica",
+    "linguagem": null,
+    "contexto": "![](https://enem.dev/2017/questions/172/3cab013f-abdc-4a51-8c74-6c0771ab0c6e.png)",
+    "contexto_raw": "![]({{aquivo1}})",
+    "inducao": "O número de horas em que os dois reservatórios contêm a mesma quantidade de água é",
+    "inducao_raw": "O número de horas em que os dois reservatórios contêm a mesma quantidade de água é",
+    "alternativas": [
+      {
+        "letter": "A",
+        "text": "1.",
+        "text_raw": "1."
+      },
+      {
+        "letter": "B",
+        "text": "2.",
+        "text_raw": "2."
+      },
+      {
+        "letter": "C",
+        "text": "4.",
+        "text_raw": "4."
+      },
+      {
+        "letter": "D",
+        "text": "5.",
+        "text_raw": "5."
+      },
+      {
+        "letter": "E",
+        "text": "6.",
+        "text_raw": "6."
+      }
+    ],
+    "files": {
+      "aquivo1": "https://enem.dev/2017/questions/172/3cab013f-abdc-4a51-8c74-6c0771ab0c6e.png"
+    }
+  },
+  "answer_result": {
+    "resposta_id": 1,
+    "correta": true,
+    "alternativa_correta": "A"
+  },
+  "second_teacher_tag": "2449",
   "attach_tag_message": {
     "message": "Tag de professor adicionada com sucesso"
   },
   "session_info": {
-    "token": "EE2sR6HZuC3EWFDNDcm7RUlBWZ5-xHpvwuwO_sBThUw",
+    "token": "VC-4PYg4WXkN5kDwo2OdRsIrK-srnlVU9UH9epzI1nQ",
     "user_id": 1,
     "user_type": "teacher",
-    "created_at": "2025-11-11T17:26:04.879139",
-    "expires_at": "2025-11-12T17:26:04.878165"
-  }
+    "created_at": "2025-11-11T23:39:46.744215",
+    "expires_at": "2025-11-12T23:39:46.743062"
+  },
+  "teacher_students_overview": [
+    {
+      "id": 1,
+      "name": "Aluno Alan Turing",
+      "email": "alan.turing@example.com",
+      "total_respostas": 0,
+      "total_corretas": 0,
+      "total_erradas": 0
+    },
+    {
+      "id": 2,
+      "name": "Aluno Grace Hopper",
+      "email": "grace.hopper@example.com",
+      "total_respostas": 1,
+      "total_corretas": 1,
+      "total_erradas": 0
+    }
+  ],
+  "student_answers_detail": [
+    {
+      "id": 1,
+      "question_id": 1555,
+      "question_index": 172,
+      "question_year": 2017,
+      "question_title": "Questão 172 - ENEM 2017",
+      "alternativa_escolhida": "A",
+      "alternativa_correta": "A",
+      "correta": true,
+      "responded_at": "2025-11-11T23:39:51.187798"
+    }
+  ]
 }
