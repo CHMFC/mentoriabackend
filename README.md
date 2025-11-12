@@ -1,10 +1,53 @@
-# Mentoria API — Endpoints
+# Mentoria API
+
+Backend FastAPI que sustenta a plataforma Mentoria. A versão atual da imagem publicada é **0.11** (`henriquefontaine/mentoria-api:0.11`) e a API pública está exposta em **`https://apicontroller.soumentoria.com`**.
 
 ## Sumário
-- [Healthcheck](#healthcheck)
-- [Autenticação](#autenticação)
-- [Professores](#professores)
-- [Alunos](#alunos)
+- [Requisitos e variáveis](#requisitos-e-variáveis)
+- [Execução local](#execução-local)
+- [Execução via Docker](#execução-via-docker)
+- [Rotas](#rotas)
+  - [Healthcheck](#healthcheck)
+  - [Autenticação](#autenticação)
+  - [Professores](#professores)
+  - [Alunos](#alunos)
+  - [Questões](#questões)
+- [Observações gerais](#observações-gerais)
+
+---
+
+## Requisitos e variáveis
+
+| Variável                         | Descrição                                                                                          | Exemplo                                                                                               |
+| -------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `MENTORIA_DATABASE_URL`          | URL completa do Postgres com driver psycopg2. **Obrigatória**.                                     | `postgresql+psycopg2://mentoria_admin:adminmentoria%402025@170.78.97.36:5464/mentoria`               |
+| `MENTORIA_ACCESS_TOKEN_TTL_MINUTES` | Opcional. Tempo de expiração do token de sessão em minutos (padrão: 1440 = 24h).                    | `1440`                                                                                                |
+
+**Banco utilizado:** PostgreSQL (schema criado automaticamente pelo SQLAlchemy no startup).
+
+## Execução local
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+export MENTORIA_DATABASE_URL="postgresql+psycopg2://..."
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+A documentação interativa (Swagger) fica disponível em `http://localhost:8000/docs`.
+
+## Execução via Docker
+
+```bash
+docker run -d \
+  --name mentoria-api \
+  -e MENTORIA_DATABASE_URL="postgresql+psycopg2://..." \
+  -p 8000:8000 \
+  henriquefontaine/mentoria-api:0.11
+```
+
+Para o TrueNAS SCALE, utilize o Custom App apontando para a mesma imagem, exponha a porta 8000/TCP e injete `MENTORIA_DATABASE_URL` como variável de ambiente.
 
 ---
 
@@ -82,6 +125,16 @@
 - **Autenticação:** Sim (Bearer token de professor)
 - **Descrição:** Obtém a tag numérica do professor autenticado.
 
+### Listar alunos vinculados
+- **Método/Caminho:** `GET /teachers/me/students`
+- **Autenticação:** Sim (Bearer token de professor)
+- **Descrição:** Retorna todos os alunos associados, incluindo contagem de respostas, acertos e erros.
+
+### Respostas de um aluno específico
+- **Método/Caminho:** `GET /teachers/students/{student_id}/answers`
+- **Autenticação:** Sim (Bearer token de professor)
+- **Descrição:** Exibe o histórico de respostas do aluno (questão, data, alternativa marcada e resultado).
+
 ### Desativar professor
 - **Método/Caminho:** `DELETE /teachers/me`
 - **Autenticação:** Sim (Bearer token de professor)
@@ -147,8 +200,20 @@
 
 ---
 
+## Questões
+
+| Método | Caminho | Autenticação | Descrição |
+| ------ | ------- | ------------ | --------- |
+| GET | `/questions/random` | Aluno | Retorna uma questão aleatória com alternativas, texto renderizável em Markdown e links de anexos. |
+| POST | `/questions/{question_id}/answer` | Aluno | Registra a resposta do aluno para a questão informada. Corpo: `{ "alternativa": "A" }`. Retorna se acertou e qual era a alternativa correta. |
+
+A resposta é persistida na tabela `respondidas` junto ao `student_id`, `question_id`, alternativa selecionada e flag de acerto.
+
+---
+
 ## Observações Gerais
 - Tokens são retornados no login e devem ser enviados em `Authorization: Bearer <token>` para chamadas autenticadas.
-- Todas as senhas são armazenadas com hash bcrypt.
-- Tags de professores possuem 4 dígitos e precisam ser informadas para auto cadastro de alunos ou vínculo posterior.
+- Todas as senhas são armazenadas com hash **bcrypt** (via `passlib` + `bcrypt==4.1.2`).
+- Tags de professores possuem 4 dígitos e precisam ser informadas no auto cadastro dos alunos ou quando for adicionar um novo professor a um aluno existente.
+- A API foi construída com FastAPI 0.111, SQLAlchemy 2.x e utiliza `psycopg2` para conectar ao Postgres.
 
